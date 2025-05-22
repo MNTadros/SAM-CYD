@@ -1,6 +1,6 @@
 # SAM – Send A Message
 
-![SAM Banner](.\imgs\SAM_CYD.png)
+![SAM Banner](imgs/SAM_CYD.png)
 
 **SAM (Send A Message)** is a friendly desktop IoT device powered by ESP32 CYD. It receives messages from a web dashboard and displays them with the sender’s name, time, and date, offering a personal way to stay connected.
 
