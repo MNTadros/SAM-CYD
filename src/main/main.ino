@@ -10,57 +10,94 @@
 #define LEFT_MARGIN  10    // px
 
 // —— Update intervals ——
-const uint32_t LOCAL_UPDATE_MS    = 1000UL;    // tick every second
-const uint32_t RESYNC_INTERVAL_MS = 3600000UL; // resync every hour
+const uint32_t LOCAL_UPDATE_MS    = 1000UL;
+const uint32_t RESYNC_INTERVAL_MS = 3600000UL;
+const uint32_t MESSAGE_REFRESH_MS = 5000UL;
+
+// —— Device credentials ——
+const char* DEVICE_ID = "sam001";
+const char* API_BASE = "http://YOUR_NETWORK/api/message/"; // Replace with your IP
 
 // —— Wi-Fi credentials ——
-const char* WIFI_SSID = "SSID"; // replace with your Wi-Fi SSID
-const char* WIFI_PASS = "PASSWORD"; // replace with your Wi-Fi password
+const char* WIFI_SSID = "SSID_HERE"; // Replace with your Wi-Fi SSID
+const char* WIFI_PASS = "PASS_HERE"; // Replace with your Wi-Fi password
 
 // —— Time API endpoint ——
-const char* TIME_URL  = "http://worldtimeapi.org/api/timezone/America/Los_Angeles";
+const char* TIME_URL = "http://worldtimeapi.org/api/timezone/America/Los_Angeles";
 
 // —— TFT object ——
 TFT_eSPI tft = TFT_eSPI();
 
 // —— Timekeeping vars ——
-uint32_t lastSyncLocalEpoch = 0; // seconds since local midnight at last sync
-uint32_t lastSyncMillis     = 0; // millis() when we last synced
+uint32_t lastSyncLocalEpoch = 0;
+uint32_t lastSyncMillis     = 0;
 uint32_t nextLocalUpdate    = 0;
 uint32_t nextResyncMillis   = 0;
+uint32_t lastMessageCheck   = 0;
 
-// Fetch the current Unix epoch and timezone offset (raw + DST), return local epoch
+String lastMessageDisplayed = "";
+
 uint32_t fetchLocalEpoch() {
   HTTPClient http;
   http.begin(TIME_URL);
-  if (http.GET() != HTTP_CODE_OK) {
+  int code = http.GET();
+  if (code != HTTP_CODE_OK) {
     http.end();
     return 0;
   }
+
   String payload = http.getString();
   http.end();
 
-  DynamicJsonDocument doc(2048);
-  if (deserializeJson(doc, payload)) return 0;
+  StaticJsonDocument<512> doc;
+  DeserializationError err = deserializeJson(doc, payload);
+  if (err) return 0;
 
-  uint32_t unixtime   = doc["unixtime"]   | 0; // UTC epoch
-  int32_t  rawOffset  = doc["raw_offset"] | 0; // e.g. -28800
-  int32_t  dstOffset  = doc["dst_offset"] | 0; // e.g. 3600
+  uint32_t unixtime   = doc["unixtime"]   | 0;
+  int32_t  rawOffset  = doc["raw_offset"] | 0;
+  int32_t  dstOffset  = doc["dst_offset"] | 0;
   return unixtime + rawOffset + dstOffset;
 }
 
-// Format a local-epoch into "HH:MM:SS"
+String fetchMessageFromServer() {
+  HTTPClient http;
+  String url = String(API_BASE) + DEVICE_ID;
+  http.begin(url);
+
+  int code = http.GET();
+  Serial.println("HTTP GET code: " + String(code));
+  if (code != HTTP_CODE_OK) {
+    http.end();
+    return "";
+  }
+
+  String payload = http.getString();
+  Serial.println("Raw payload: " + payload);
+  http.end();
+
+  StaticJsonDocument<512> doc;
+  DeserializationError err = deserializeJson(doc, payload);
+  if (err) {
+    Serial.print("JSON parse error: ");
+    Serial.println(err.c_str());
+    return "";
+  }
+
+  String sender = doc["sender"] | "Unknown";
+  String message = doc["message"] | "No message";
+  return sender + ": " + message;
+}
+
 String formatTime(uint32_t localEpoch) {
-  uint32_t secondsSinceMidnight = localEpoch % 86400;
-  uint8_t  h = secondsSinceMidnight / 3600;
-  uint8_t  m = (secondsSinceMidnight % 3600) / 60;
-  uint8_t  s = secondsSinceMidnight % 60;
+  uint32_t seconds = localEpoch % 86400;
+  uint8_t h = seconds / 3600;
+  uint8_t m = (seconds % 3600) / 60;
+  uint8_t s = seconds % 60;
   char buf[9];
   snprintf(buf, sizeof(buf), "%02u:%02u:%02u", h, m, s);
   return String(buf);
 }
 
-// Draw the time centered at the bottom, clearing only that area
 void displayTime(const String &ts) {
   tft.setTextColor(TXT_COLOR, BG_COLOR);
   tft.setTextFont(4);
@@ -68,30 +105,47 @@ void displayTime(const String &ts) {
 
   int16_t txtW = tft.textWidth(ts);
   int16_t txtH = tft.fontHeight();
-  int16_t x    = (tft.width()  - txtW) / 2;
+  int16_t x    = (tft.width() - txtW) / 2;
   int16_t y    = tft.height() - txtH - LEFT_MARGIN;
 
-  // clear only the clock rectangle
   tft.fillRect(x, y, txtW, txtH, BG_COLOR);
   tft.setCursor(x, y);
   tft.print(ts);
 }
 
+void displayMessage(const String &msg) {
+  if (msg == lastMessageDisplayed) return;  // don't redraw if same
+  lastMessageDisplayed = msg;
+
+  tft.setTextColor(TXT_COLOR, BG_COLOR);
+  tft.setTextFont(2);
+  tft.setTextSize(1);
+  tft.fillRect(0, 0, tft.width(), tft.height() - 40, BG_COLOR); // clear top part
+  tft.setCursor(LEFT_MARGIN, 20);
+
+  int maxWidth = tft.width() - 2 * LEFT_MARGIN;
+  String line = "";
+  for (int i = 0; i < msg.length(); i++) {
+    line += msg[i];
+    if (tft.textWidth(line) > maxWidth || msg[i] == '\n') {
+      tft.println(line);
+      line = "";
+    }
+  }
+  if (line.length() > 0) tft.println(line);
+}
+
 void setup() {
   Serial.begin(115200);
-
-  // Init display
   tft.init();
   tft.setRotation(1);
   tft.fillScreen(BG_COLOR);
 
-  // Connect Wi-Fi
   WiFi.begin(WIFI_SSID, WIFI_PASS);
   while (WiFi.status() != WL_CONNECTED) {
     delay(250);
   }
 
-  // Initial network sync (block until successful)
   uint32_t epoch;
   do {
     epoch = fetchLocalEpoch();
@@ -103,14 +157,13 @@ void setup() {
   nextLocalUpdate    = lastSyncMillis + LOCAL_UPDATE_MS;
   nextResyncMillis   = lastSyncMillis + RESYNC_INTERVAL_MS;
 
-  // Draw the starting time
   displayTime(formatTime(lastSyncLocalEpoch));
 }
 
 void loop() {
   uint32_t now = millis();
 
-  // Local tick every second
+  // Update local clock every second
   if (now >= nextLocalUpdate) {
     uint32_t elapsedSec = (now - lastSyncMillis) / 1000;
     lastSyncLocalEpoch += elapsedSec;
@@ -119,7 +172,7 @@ void loop() {
     displayTime(formatTime(lastSyncLocalEpoch));
   }
 
-  // Hourly resync to correct drift
+  // Resync NTP hourly
   if (now >= nextResyncMillis) {
     uint32_t fresh = fetchLocalEpoch();
     if (fresh != 0) {
@@ -129,8 +182,20 @@ void loop() {
       nextResyncMillis   = now + RESYNC_INTERVAL_MS;
       displayTime(formatTime(lastSyncLocalEpoch));
     } else {
-      // retry sooner if failed
       nextResyncMillis = now + 60000;
+    }
+  }
+
+  // Check message every 5 seconds
+  if (now - lastMessageCheck > MESSAGE_REFRESH_MS) {
+    lastMessageCheck = now;
+    Serial.println("Fetching message from server...");
+    String message = fetchMessageFromServer();
+    if (message.length() > 0) {
+      Serial.println("Received message: " + message);
+      displayMessage(message);
+    } else {
+      Serial.println("No message or failed to fetch.");
     }
   }
 }

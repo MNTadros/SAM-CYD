@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SAM - Send A Message | Docs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-900 font-sans">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <h1 class="text-2xl font-bold tracking-wide">📟 SAM - Send A Message</h1>
+            <span class="text-sm">SAM | v1.0</span>
+        </div>
+    </header>
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white border-r p-6 space-y-4">
+            <nav class="space-y-2">
+                <h2 class="text-lg font-semibold mb-2">📚 Documentation</h2>
+                <a href="#intro" class="block px-3 py-2 rounded hover:bg-blue-100">Introduction</a>
+                <a href="#setup" class="block px-3 py-2 rounded hover:bg-blue-100">Getting Started</a>
+                <a href="#hardware" class="block px-3 py-2 rounded hover:bg-blue-100">Hardware Components</a>
+                <a href="#software" class="block px-3 py-2 rounded hover:bg-blue-100">Software Architecture</a>
+                <a href="#api" class="block px-3 py-2 rounded hover:bg-blue-100">API Reference</a>
+                <a href="#future" class="block px-3 py-2 rounded hover:bg-blue-100">Roadmap & Expansion</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8 space-y-10">
+            <section id="intro">
+                <h2 class="text-2xl font-bold mb-2">Welcome to SAM</h2>
+                <p class="text-lg mb-4">
+                    SAM (Send A Message) is a desktop companion device that receives messages from friends in real time.
+                    It runs on the ESP CYD, and displays messages, timestamps, and sender names with a friendly user
+                    interface.
+                </p>
+                <div class="w-full flex justify-center mb-6">
+                    <img src="/imgs/sam_diagram.png" alt="SAM Architecture Diagram"
+                        class="rounded shadow-lg max-w-4xl w-full h-auto">
+                </div>
+            </section>
+
+            <section id="setup">
+                <h3 class="text-xl font-semibold mb-2">Getting Started</h3>
+                <ul class="list-disc list-inside space-y-1">
+                    <li>Power the ESP CYD using USB-C</li>
+                    <li>Connect to WiFi via the setup webpage</li>
+                    <li>Link the device to the SAM dashboard</li>
+                    <li>Send test messages to confirm functionality</li>
+                </ul>
+            </section>
+
+            <section id="hardware">
+                <h3 class="text-xl font-semibold mb-2">Hardware Components</h3>
+                <ul class="list-disc list-inside space-y-1">
+                    <li>ESP CYD board</li>
+                    <li>2.4” TFT Display (SPI interface)</li>
+                    <li>Speaker (optional for notifications)</li>
+                    <li>3D printed yellow enclosure (Smiley design)</li>
+                </ul>
+            </section>
+
+            <section id="software">
+                <h3 class="text-xl font-semibold mb-2">Software Architecture</h3>
+                <p>SAM runs a lightweight Flask-based backend for the web dashboard and uses WebSocket or HTTP polling
+                    to receive messages. On the ESP side:</p>
+                <ul class="list-disc list-inside space-y-1">
+                    <li>WiFiManager for network setup</li>
+                    <li>Custom JSON parser for message handling</li>
+                    <li>TFT_eSPI library for display rendering</li>
+                </ul>
+            </section>
+
+            <section id="api">
+                <h3 class="text-xl font-semibold mb-2">API Reference</h3>
+                <p>Messages are sent to SAM via the following endpoint:</p>
+                <div class="bg-gray-100 p-4 rounded text-sm font-mono">
+                    POST /api/sendMessage<br />
+                    Content-Type: application/json<br />
+                    {<br />
+                    &nbsp;&nbsp;"sender": "John",<br />
+                    &nbsp;&nbsp;"message": "Hello, Bob!",<br />
+                    &nbsp;&nbsp;"timestamp": "2025-05-25T18:30:00Z"<br />
+                    }
+                </div>
+            </section>
+
+            <section id="future">
+                <h3 class="text-xl font-semibold mb-2">Roadmap & Expansion</h3>
+                <ul class="list-disc list-inside space-y-1">
+                    <li>📱 Mobile-friendly dashboard</li>
+                    <li>🔔 Notification sounds + LED feedback</li>
+                    <li>🌐 OAuth-based friend system</li>
+                    <li>🎨 Theme customization</li>
+                    <li>📦 Firmware update via WiFi</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>
