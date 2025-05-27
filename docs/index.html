@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SAM - Send A Message | Docs</title>
+    <link rel="icon" type="image/png" href="/imgs/sam_favicon.ico" />
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -28,6 +29,10 @@
                 <a href="#software" class="block px-3 py-2 rounded hover:bg-blue-100">Software Architecture</a>
                 <a href="#api" class="block px-3 py-2 rounded hover:bg-blue-100">API Reference</a>
                 <a href="#future" class="block px-3 py-2 rounded hover:bg-blue-100">Roadmap & Expansion</a>
+                <h2 class="text-lg font-semibold mt-6 mb-2">🛠️ Build Your Own</h2>
+                <!-- <a href="#build" class="block px-3 py-2 rounded hover:bg-blue-100">Assembly Guide</a> -->
+                <a href="#flashing" class="block px-3 py-2 rounded hover:bg-blue-100">Flashing Firmware</a>
+                <a href="#customizing" class="block px-3 py-2 rounded hover:bg-blue-100">Customization Tips</a>
             </nav>
         </aside>
 
@@ -59,8 +64,9 @@
             <section id="hardware">
                 <h3 class="text-xl font-semibold mb-2">Hardware Components</h3>
                 <ul class="list-disc list-inside space-y-1">
-                    <li>ESP CYD board</li>
-                    <li>2.4” TFT Display (SPI interface)</li>
+                    <li>ESP<a href="#build" title="What is CYD?" class="text-blue-600 hover:underline"> CYD</a> board
+                    </li>
+                    <li>2.8” TFT Display (SPI interface)</li>
                     <li>Speaker (optional for notifications)</li>
                     <li>3D printed yellow enclosure (Smiley design)</li>
                 </ul>
@@ -101,6 +107,73 @@
                     <li>📦 Firmware update via WiFi</li>
                 </ul>
             </section>
+
+            <section id="build">
+                <h3 class="text-2xl font-bold mb-4">🛠️ Build Your Own SAM</h3>
+                <p class="mb-4">This guide walks you through building your own SAM device from scratch using the ESP CYD
+                    board.</p>
+                <h4 class="text-xl font-semibold mt-6 mb-2">📟 What is CYD?</h4>
+                <p class="mb-2">
+                    <strong>CYD</strong> stands for <strong>Cheap Yellow Display</strong>, a community-driven project
+                    that combines an ESP32 microcontroller with a built-in 2.8" color TFT display — all packed into a
+                    yellow enclosure.
+                </p>
+                <ul class="list-disc list-inside space-y-1">
+                    <li>ESP32-based board with built-in Wi-Fi and Bluetooth</li>
+                    <li>2.8” SPI TFT display (320x240 resolution)</li>
+                    <li>GPIO access for sensors, buttons, and buzzers</li>
+                    <li>Open-source enclosure design with a cheerful yellow faceplate</li>
+                </ul>
+                <p class="mt-2">
+                    I used <a href="https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display" target="_blank"
+                        class="text-blue-600 hover:underline">this</a> as a reference and it helped setup my CYD to
+                    build SAM!
+                </p>
+
+                <!-- 
+                <h4 class="text-xl font-semibold mt-6 mb-2">🔧 Assembly Instructions</h4>
+                <ol class="list-decimal list-inside space-y-2">
+
+                </ol> -->
+
+                <h4 class="text-xl font-semibold mt-6 mb-2">🧾 Bill of Materials (BOM)</h4>
+                <p class="mb-4">
+                    One of the goals of SAM is affordability, the entire build can be completed for under <strong>$20 USD</strong>,
+                    including all parts and the enclosure (if printed at home).
+                </p>
+                <ul class="list-disc list-inside space-y-3 text-base">
+                    <li>
+                        <a href="https://www.aliexpress.com/item/1005006110360174.html?spm=a2g0o.order_list.order_list_main.173.360e1802ZoD8Y5"
+                            target="_blank" class="text-blue-600 hover:underline font-medium">
+                            ESP32 CYD Board (Cheap Yellow Display)
+                        </a>
+                        —> ~$13 USD. A compact ESP32 board with a 2.8” resistive touch TFT display built-in.
+                    </li>
+                    <li>
+                        <a href="https://www.aliexpress.com/item/1005007424936858.html?spm=a2g0o.productlist.main.14.499e5a36MXZIeA"
+                            target="_blank" class="text-blue-600 hover:underline font-medium">
+                            USB-C Cable
+                        </a>
+                        —> ~$3 USD. Powers the device and allows firmware flashing.
+                    </li>
+                    <li>
+                        <a href="https://www.aliexpress.com/item/1005003582355741.html?spm=a2g0o.productlist.main.2.4aec2dc3b6qvSU"
+                            target="_blank" class="text-blue-600 hover:underline font-medium">
+                            M3 Brass Inserts + Screws
+                        </a>
+                        —> ~$2 USD. Helps secure the screen inside the 3D printed case.
+                    </li>
+                    <li>
+                        <a href="https://github.com/MNTadros/SAM-CYD/tree/main/case" target="_blank"
+                            class="text-blue-600 hover:underline font-medium">
+                            3D Printable Enclosure Files
+                        </a>
+                        —> (~80g PLA) Free to download. Print the smiley face case to complete the build.
+                    </li>
+                </ul>
+
+            </section>
+
         </main>
     </div>
 </body>
