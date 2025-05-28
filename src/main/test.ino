@@ -1,8 +1,12 @@
+//main.ino
+
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <SPI.h>
 #include <TFT_eSPI.h>    // Graphics
 #include <ArduinoJson.h> // JSON parsing
+#include <FS.h>
+#include <SPIFFS.h>
 
 // —— Display settings ——
 #define BG_COLOR TFT_BLACK
@@ -14,15 +18,11 @@ const uint32_t LOCAL_UPDATE_MS = 1000UL;
 const uint32_t RESYNC_INTERVAL_MS = 3600000UL;
 const uint32_t MESSAGE_REFRESH_MS = 5000UL;
 
-// —— Device credentials ——
-const char *DEVICE_ID = "sam001";
-const char *API_BASE = "http://192.168.68.115:5000/api/message/"; // Replace with your IP
-
-// —— Wi-Fi credentials ——
-const char *WIFI_SSID = "Nadi-IoT";      // Replace with your Wi-Fi SSID
-const char *WIFI_PASS = "helateromina3"; // Replace with your Wi-Fi password
-
-// —— Time API endpoint ——
+// —— Device Config ——
+String DEVICE_ID;
+String WIFI_SSID;
+String WIFI_PASS;
+String API_BASE;
 const char *TIME_URL = "http://worldtimeapi.org/api/timezone/America/Los_Angeles";
 
 // —— TFT object ——
@@ -148,6 +148,41 @@ void displayMessage(const String &msg)
     tft.println(line);
 }
 
+void loadConfig()
+{
+
+  if (!SPIFFS.begin(true)) {
+    Serial.println("SPIFFS Mount Failed");
+    return;
+  }
+
+  fs::File file = SPIFFS.open("/config.txt", "r");
+
+  while (file.available())
+  {
+    String line = file.readStringUntil('\n');
+    line.trim();
+    if (line.startsWith("device_id="))
+    {
+      DEVICE_ID = line.substring(strlen("device_id="));
+    }
+    else if (line.startsWith("ssid="))
+    {
+      WIFI_SSID = line.substring(strlen("ssid="));
+    }
+    else if (line.startsWith("password="))
+    {
+      WIFI_PASS = line.substring(strlen("password="));
+    }
+    else if (line.startsWith("api="))
+    {
+      API_BASE = line.substring(strlen("api="));
+    }
+  }
+
+  file.close();
+}
+
 void setup()
 {
   Serial.begin(115200);
@@ -155,7 +190,8 @@ void setup()
   tft.setRotation(1);
   tft.fillScreen(BG_COLOR);
 
-  WiFi.begin(WIFI_SSID, WIFI_PASS);
+  loadConfig();
+  WiFi.begin(WIFI_SSID.c_str(), WIFI_PASS.c_str());
   while (WiFi.status() != WL_CONNECTED)
   {
     delay(250);

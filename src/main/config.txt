@@ -1,0 +1,5 @@
+device_id=samID
+ssid=YourNetworkSSID
+password=YourWiFiPassword
+api=http://XXX.XXX.XX.XXX:XXXX/api/message/;
+
