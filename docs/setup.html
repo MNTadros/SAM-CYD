@@ -5,9 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SAM Docs | Setup</title>
-
-  <link rel="icon" href="https://raw.githubusercontent.com/MNTadros/SAM-CYD/refs/heads/main/imgs/sam_favicon.ico" type="image/x-icon" />
-
+  <link rel="icon" href="imgs/sam_favicon.ico" type="image/x-icon" />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -30,48 +28,215 @@
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto px-6 py-10 space-y-8">
+  <main class="max-w-4xl mx-auto px-6 py-10 space-y-12">
     <section>
       <h2 class="text-3xl font-bold mb-4">🔧 Getting Started</h2>
+      <p class="text-lg">
+        Follow these steps to set up both the ESP32 CYD firmware and the
+        Flask dashboard so your SAM device can receive and display messages.
+      </p>
+    </section>
+
+    <section>
+      <h3 class="text-2xl font-semibold mb-4">✅ Prerequisites</h3>
       <ul class="list-disc pl-6 space-y-2">
-        <li>Power the ESP CYD using a USB-C cable</li>
-        <li>Connect to Wi-Fi via the setup webpage</li>
-        <li>Link the device to the SAM dashboard</li>
-        <li>Send test messages to confirm functionality</li>
+        <li>
+          **Arduino IDE** (or PlatformIO) configured for ESP32 development
+        </li>
+        <li>**Python 3** installed (version 3.6+)</li>
+        <li>
+          **git** → clone this repo:
+          <code class="bg-gray-100 px-1 rounded">git clone
+            https://github.com/MNTadros/SAM-CYD.git</code>
+        </li>
+        <li>
+          A local network (Wi-Fi) where both the dashboard server and ESP32
+          CYD can connect
+        </li>
       </ul>
     </section>
 
     <section>
-      <h3 class="text-2xl font-bold pt-10 mb-4">💡 Hardware Components</h3>
-      <ul class="list-disc pl-6 space-y-2">
-        <li>ESP CYD board</li>
-        <li>2.8" TFT Display (SPI)</li>
-        <li>Optional: Speaker for notifications</li>
-        <li>3D-printed yellow enclosure</li>
-      </ul>
-    </section>
+      <h3 class="text-2xl font-semibold mb-4">📲 ESP32 CYD Firmware</h3>
+      <div class="space-y-6">
+        <div>
+          <h4 class="text-xl font-medium mb-2">1. Open the Firmware Folder</h4>
+          <p>
+            Navigate into the firmware folder:
+          </p>
+          <pre class="bg-gray-100 p-4 rounded text-sm font-mono overflow-x-auto">
+cd SAM-CYD/src/main
+            </pre>
+        </div>
 
-    <section>
-      <h3 class="text-2xl font-bold pt-10 mb-4">📦 Software Architecture</h3>
-      <p>SAM includes a Flask web dashboard and ESP firmware with:</p>
-      <ul class="list-disc pl-6 space-y-2">
-        <li>WiFiManager for setup</li>
-        <li>Custom JSON message handling</li>
-        <li>TFT_eSPI for rendering</li>
-      </ul>
-    </section>
+        <div>
+          <h4 class="text-xl font-medium mb-2">
+            2. Update <code>config.txt</code>
+          </h4>
+          <p>
+            Edit <code>config.txt</code> to include your Wi-Fi and API server
+            details. Example:
+          </p>
+          <pre class="bg-gray-100 p-4 rounded text-sm font-mono overflow-x-auto">
+device_id=samID
+ssid=YourNetworkSSID
+password=YourWiFiPassword
+api=http://&lt;SERVER_IP&gt;:5000/api/sendMessage
+            </pre>
+          <p class="text-gray-600 text-sm">
+            • <strong>device_id</strong>: Unique identifier for your device
+            • <strong>ssid</strong> & <strong>password</strong>: Your Wi-Fi
+            credentials
+            • <strong>api</strong>: URL of your Flask dashboard’s endpoint
+          </p>
+        </div>
 
-    <section>
-      <h3 class="text-2xl font-bold pt-10 mb-4">🧠 API Reference</h3>
-      <div class="bg-gray-100 p-4 rounded text-sm font-mono">
-        POST /api/sendMessage<br />
-        Content-Type: application/json<br />
-        {<br />
-        &nbsp;&nbsp;"sender": "John",<br />
-        &nbsp;&nbsp;"message": "Hello, Bob!",<br />
-        &nbsp;&nbsp;"timestamp": "2025-05-25T18:30:00Z"<br />
-        }
+        <div>
+          <h4 class="text-xl font-medium mb-2">
+            3. Load &amp; Upload Arduino Sketch
+          </h4>
+          <p>
+            Open your Arduino IDE (or PlatformIO) and open
+            <code>SAM-CYD/src/main/main.ino</code>. Ensure the board is
+            set to ESP32 Dev Kit (or equivalent ESP32 target). Then click “Upload”
+            to flash the firmware.
+          </p>
+          <p class="text-gray-600 text-sm mt-2">
+            Once uploaded, the ESP32 will reboot, connect to your Wi-Fi,
+            and wait for incoming messages from the dashboard.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-xl font-medium mb-2">
+            4. Verify Connection on Your Device
+          </h4>
+          <p>
+            If Wi-Fi credentials and API URL are correct, the TFT should show:
+          </p>
+          <ul class="list-disc pl-6 space-y-1 text-gray-600">
+            <li><strong>Device ID:</strong> samID</li>
+            <li><strong>Status:</strong> Connected to Wi-Fi</li>
+            <li>“Awaiting messages...” prompt</li>
+          </ul>
+        </div>
       </div>
+    </section>
+
+    <section>
+      <h3 class="text-2xl font-semibold mb-4">💻 Flask Dashboard</h3>
+      <div class="space-y-6">
+        <div>
+          <h4 class="text-xl font-medium mb-2">
+            1. Enter the Dashboard Directory
+          </h4>
+          <p>
+            Switch to the dashboard folder:
+          </p>
+          <pre class="bg-gray-100 p-4 rounded text-sm font-mono overflow-x-auto">
+cd SAM-CYD/src/web_dashboard
+            </pre>
+        </div>
+
+        <div>
+          <h4 class="text-xl font-medium mb-2">
+            2. Create &amp; Activate Virtual Environment
+          </h4>
+          <p class="text-gray-600 text-sm">
+            (Recommended to isolate dependencies.)
+          </p>
+          <pre class="bg-gray-100 p-4 rounded text-sm font-mono overflow-x-auto">
+python3 -m venv venv
+source venv/bin/activate   # (Windows: venv\Scripts\activate)
+              </pre>
+          <p class="mt-2">
+            Install required Python packages:
+          </p>
+          <pre class="bg-gray-100 p-4 rounded text-sm font-mono overflow-x-auto">
+pip install -r requirements.txt
+            </pre>
+        </div>
+
+        <div>
+          <h4 class="text-xl font-medium mb-2">3. Run the Dashboard</h4>
+          <p>
+            Launch Flask so it listens on all interfaces at port 5000:
+          </p>
+          <pre class="bg-gray-100 p-4 rounded text-sm font-mono overflow-x-auto">
+flask run --host=0.0.0.0 --port=5000
+            </pre>
+          <p class="text-gray-600 text-sm">
+            • If Flask complains about missing `FLASK_APP`, set it first:
+            <code>export FLASK_APP=app.py</code> (Windows:
+            <code>set FLASK_APP=app.py</code>).
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-xl font-medium mb-2">
+            4. Access the Dashboard in Your Browser
+          </h4>
+          <p>
+            Visit <code>http://&lt;SERVER_IP&gt;:5000/</code> (e.g.
+            <code>http://192.168.1.100:5000/</code>). You should see a form
+            to enter:
+          </p>
+          <ul class="list-disc pl-6 space-y-1 text-gray-600">
+            <li><strong>Sender:</strong> Name displayed on the TFT</li>
+            <li><strong>Message:</strong> Text to show on the device</li>
+            <li>
+              <strong>Timestamp:</strong> Auto-generated or custom (e.g.
+              2025-06-06 14:30)
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h3 class="text-2xl font-semibold mb-4">⚙️ Configuration Recap</h3>
+      <p>
+        Your ESP32 CYD reads <code>config.txt</code> for Wi-Fi &amp; API details.
+        Example content:
+      </p>
+      <pre class="bg-gray-100 p-4 rounded text-sm font-mono overflow-x-auto">
+device_id=samID
+ssid=MyHomeNetwork
+password=SuperSecurePass
+api=http://192.168.1.100:5000/api/sendMessage
+        </pre>
+      <p class="text-gray-600 text-sm">
+        Make sure the API URL matches exactly where your Flask dashboard
+        endpoint is reachable.
+      </p>
+    </section>
+
+    <section>
+      <h3 class="text-2xl font-semibold mb-4">✔️ Verify End-to-End</h3>
+      <p>
+        1. On the web dashboard, send a test message—e.g.:
+      </p>
+      <pre class="bg-gray-100 p-4 rounded text-sm font-mono overflow-x-auto">
+Sender: Alice
+Message: Hello, SAM!
+Timestamp: (automatically set)
+        </pre>
+      <p class="mt-2">
+        2. The ESP32 CYD TFT should display:
+      </p>
+      <ul class="list-disc pl-6 space-y-1 text-gray-600">
+        <li><strong>Alice</strong> (bold)</li>
+        <li><em>Hello, SAM!</em></li>
+        <li><small>2025-06-06 14:30</small></li>
+      </ul>
+      <p class="mt-4 text-gray-600">
+        If nothing appears, check:
+      </p>
+      <ul class="list-disc pl-6 space-y-1 text-gray-600">
+        <li>Wi-Fi signal &amp; credentials</li>
+        <li>Correct <code>api</code> URL in <code>config.txt</code></li>
+        <li>Flask console logs for incoming POST requests</li>
+      </ul>
     </section>
   </main>
 </body>
