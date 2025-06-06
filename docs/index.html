@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SAM Docs | Home</title>
 
-  <link rel="icon" href="https://raw.githubusercontent.com/MNTadros/SAM-CYD/refs/heads/main/imgs/sam_favicon.ico" type="image/x-icon" />
-
+  <link rel="icon" href="https://raw.githubusercontent.com/MNTadros/SAM-CYD/refs/heads/main/imgs/sam_favicon.ico"
+    type="image/x-icon" />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -39,20 +39,32 @@
         and displays messages from friends (with timestamps and sender names).
       </p>
 
-      <img src="https://raw.githubusercontent.com/MNTadros/SAM-CYD/refs/heads/main/imgs/sam_diagram.png" alt="SAM Architecture Diagram"
-        class="rounded shadow-lg w-full max-w-3xl mx-auto" />
+      <img src="https://raw.githubusercontent.com/MNTadros/SAM-CYD/refs/heads/main/imgs/sam_diagram.png"
+        alt="SAM Architecture Diagram" class="rounded shadow-lg w-full max-w-3xl mx-auto" />
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold mb-4">Sections</h3>
-      <ul class="list-disc pl-6 space-y-2 text-blue-600">
-        <li>
-          <a href="setup.html" class="hover:underline">🔧 Getting Started & Setup</a>
-        </li>
-        <li>
-          <a href="what.html" class="hover:underline">🛠️ What is CYD & BOM</a>
-        </li>
-      </ul>
+      <h3 class="text-2xl font-semibold mb-6">Sections</h3>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <a href="setup.html"
+          class="flex flex-col items-center text-center bg-white rounded-xl shadow-md p-6 hover:bg-blue-50 transition">
+          <div class="text-4xl mb-4">🔧</div>
+          <h4 class="text-xl font-semibold mb-2">Getting Started &amp; Setup</h4>
+          <p class="text-gray-600">
+            Learn how to power and configure your ESP CYD, connect to Wi-Fi, and link to the SAM dashboard.
+          </p>
+        </a>
+
+        <a href="what.html"
+          class="flex flex-col items-center text-center bg-white rounded-xl shadow-md p-6 hover:bg-blue-50 transition">
+          <div class="text-4xl mb-4">🛠️</div>
+          <h4 class="text-xl font-semibold mb-2">What is CYD &amp; BOM</h4>
+          <p class="text-gray-600">
+            Discover what the Cheap Yellow Display (CYD) is, its features, and review the bill of materials.
+          </p>
+        </a>
+      </div>
     </section>
   </main>
 </body>
