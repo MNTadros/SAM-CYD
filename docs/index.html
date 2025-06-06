@@ -1,181 +1,35 @@
-<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SAM - Send A Message | Docs</title>
-    <link rel="icon" type="image/png" href="/imgs/sam_favicon.ico" />
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAM Docs | Home</title>
+  <link rel="icon" type="image/png" href="/imgs/sam_favicon.ico" />
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
-<body class="bg-gray-50 text-gray-900 font-sans">
-    <!-- Header -->
-    <header class="bg-blue-700 text-white shadow-md">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <h1 class="text-2xl font-bold tracking-wide">📟 SAM - Send A Message</h1>
-            <span class="text-sm">SAM | v1.0</span>
-        </div>
-    </header>
-
-    <div class="flex min-h-screen">
-        <!-- Sidebar -->
-        <aside class="w-64 bg-white border-r p-6 space-y-4">
-            <nav class="space-y-2">
-                <h2 class="text-lg font-semibold mb-2">📚 Documentation</h2>
-                <a href="#intro" class="block px-3 py-2 rounded hover:bg-blue-100">Introduction</a>
-                <a href="#setup" class="block px-3 py-2 rounded hover:bg-blue-100">Getting Started</a>
-                <a href="#hardware" class="block px-3 py-2 rounded hover:bg-blue-100">Hardware Components</a>
-                <a href="#software" class="block px-3 py-2 rounded hover:bg-blue-100">Software Architecture</a>
-                <a href="#api" class="block px-3 py-2 rounded hover:bg-blue-100">API Reference</a>
-                <a href="#future" class="block px-3 py-2 rounded hover:bg-blue-100">Roadmap & Expansion</a>
-                <h2 class="text-lg font-semibold mt-6 mb-2">🛠️ Build Your Own</h2>
-                <!-- <a href="#build" class="block px-3 py-2 rounded hover:bg-blue-100">Assembly Guide</a> -->
-                <a href="#flashing" class="block px-3 py-2 rounded hover:bg-blue-100">Flashing Firmware</a>
-                <a href="#customizing" class="block px-3 py-2 rounded hover:bg-blue-100">Customization Tips</a>
-            </nav>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="flex-1 p-8 space-y-10">
-            <section id="intro">
-                <h2 class="text-2xl font-bold mb-2">Welcome to SAM</h2>
-                <p class="text-lg mb-4">
-                    SAM (Send A Message) is a desktop companion device that receives messages from friends in real time.
-                    It runs on the ESP CYD, and displays messages, timestamps, and sender names with a friendly user
-                    interface.
-                </p>
-                <div class="w-full flex justify-center mb-6">
-                    <img src="/imgs/sam_diagram.png" alt="SAM Architecture Diagram"
-                        class="rounded shadow-lg max-w-4xl w-full h-auto">
-                </div>
-            </section>
-
-            <section id="setup">
-                <h3 class="text-xl font-semibold mb-2">Getting Started</h3>
-                <ul class="list-disc list-inside space-y-1">
-                    <li>Power the ESP CYD using USB-C</li>
-                    <li>Connect to WiFi via the setup webpage</li>
-                    <li>Link the device to the SAM dashboard</li>
-                    <li>Send test messages to confirm functionality</li>
-                </ul>
-            </section>
-
-            <section id="hardware">
-                <h3 class="text-xl font-semibold mb-2">Hardware Components</h3>
-                <ul class="list-disc list-inside space-y-1">
-                    <li>ESP<a href="#build" title="What is CYD?" class="text-blue-600 hover:underline"> CYD</a> board
-                    </li>
-                    <li>2.8” TFT Display (SPI interface)</li>
-                    <li>Speaker (optional for notifications)</li>
-                    <li>3D printed yellow enclosure (Smiley design)</li>
-                </ul>
-            </section>
-
-            <section id="software">
-                <h3 class="text-xl font-semibold mb-2">Software Architecture</h3>
-                <p>SAM runs a lightweight Flask-based backend for the web dashboard and uses WebSocket or HTTP polling
-                    to receive messages. On the ESP side:</p>
-                <ul class="list-disc list-inside space-y-1">
-                    <li>WiFiManager for network setup</li>
-                    <li>Custom JSON parser for message handling</li>
-                    <li>TFT_eSPI library for display rendering</li>
-                </ul>
-            </section>
-
-            <section id="api">
-                <h3 class="text-xl font-semibold mb-2">API Reference</h3>
-                <p>Messages are sent to SAM via the following endpoint:</p>
-                <div class="bg-gray-100 p-4 rounded text-sm font-mono">
-                    POST /api/sendMessage<br />
-                    Content-Type: application/json<br />
-                    {<br />
-                    &nbsp;&nbsp;"sender": "John",<br />
-                    &nbsp;&nbsp;"message": "Hello, Bob!",<br />
-                    &nbsp;&nbsp;"timestamp": "2025-05-25T18:30:00Z"<br />
-                    }
-                </div>
-            </section>
-
-            <section id="future">
-                <h3 class="text-xl font-semibold mb-2">Roadmap & Expansion</h3>
-                <ul class="list-disc list-inside space-y-1">
-                    <li>📱 Mobile-friendly dashboard</li>
-                    <li>🔔 Notification sounds + LED feedback</li>
-                    <li>🌐 OAuth-based friend system</li>
-                    <li>🎨 Theme customization</li>
-                    <li>📦 Firmware update via WiFi</li>
-                </ul>
-            </section>
-
-            <section id="build">
-                <h3 class="text-2xl font-bold mb-4">🛠️ Build Your Own SAM</h3>
-                <p class="mb-4">This guide walks you through building your own SAM device from scratch using the ESP CYD
-                    board.</p>
-                <h4 class="text-xl font-semibold mt-6 mb-2">📟 What is CYD?</h4>
-                <p class="mb-2">
-                    <strong>CYD</strong> stands for <strong>Cheap Yellow Display</strong>, a community-driven project
-                    that combines an ESP32 microcontroller with a built-in 2.8" color TFT display — all packed into a
-                    yellow enclosure.
-                </p>
-                <ul class="list-disc list-inside space-y-1">
-                    <li>ESP32-based board with built-in Wi-Fi and Bluetooth</li>
-                    <li>2.8” SPI TFT display (320x240 resolution)</li>
-                    <li>GPIO access for sensors, buttons, and buzzers</li>
-                    <li>Open-source enclosure design with a cheerful yellow faceplate</li>
-                </ul>
-                <p class="mt-2">
-                    I used <a href="https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display" target="_blank"
-                        class="text-blue-600 hover:underline">this</a> as a reference and it helped setup my CYD to
-                    build SAM!
-                </p>
-
-                <!-- 
-                <h4 class="text-xl font-semibold mt-6 mb-2">🔧 Assembly Instructions</h4>
-                <ol class="list-decimal list-inside space-y-2">
-
-                </ol> -->
-
-                <h4 class="text-xl font-semibold mt-6 mb-2">🧾 Bill of Materials (BOM)</h4>
-                <p class="mb-4">
-                    One of the goals of SAM is affordability, the entire build can be completed for under <strong>$20 USD</strong>,
-                    including all parts and the enclosure (if printed at home).
-                </p>
-                <ul class="list-disc list-inside space-y-3 text-base">
-                    <li>
-                        <a href="https://www.aliexpress.com/item/1005006110360174.html?spm=a2g0o.order_list.order_list_main.173.360e1802ZoD8Y5"
-                            target="_blank" class="text-blue-600 hover:underline font-medium">
-                            ESP32 CYD Board (Cheap Yellow Display)
-                        </a>
-                        —> ~$13 USD. A compact ESP32 board with a 2.8” resistive touch TFT display built-in.
-                    </li>
-                    <li>
-                        <a href="https://www.aliexpress.com/item/1005007424936858.html?spm=a2g0o.productlist.main.14.499e5a36MXZIeA"
-                            target="_blank" class="text-blue-600 hover:underline font-medium">
-                            USB-C Cable
-                        </a>
-                        —> ~$3 USD. Powers the device and allows firmware flashing.
-                    </li>
-                    <li>
-                        <a href="https://www.aliexpress.com/item/1005003582355741.html?spm=a2g0o.productlist.main.2.4aec2dc3b6qvSU"
-                            target="_blank" class="text-blue-600 hover:underline font-medium">
-                            M3 Brass Inserts + Screws
-                        </a>
-                        —> ~$2 USD. Helps secure the screen inside the 3D printed case.
-                    </li>
-                    <li>
-                        <a href="https://github.com/MNTadros/SAM-CYD/tree/main/case" target="_blank"
-                            class="text-blue-600 hover:underline font-medium">
-                            3D Printable Enclosure Files
-                        </a>
-                        —> (~80g PLA) Free to download. Print the smiley face case to complete the build.
-                    </li>
-                </ul>
-
-            </section>
-
-        </main>
+<body class="bg-gray-50 text-gray-800 font-sans">
+  <header class="bg-blue-700 text-white py-4 shadow">
+    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold">📟 SAM - Send A Message</h1>
+      <span class="text-sm">v1.0</span>
     </div>
-</body>
+  </header>
 
+  <main class="max-w-4xl mx-auto px-6 py-10 space-y-8">
+    <section>
+      <h2 class="text-3xl font-bold mb-4">Welcome to SAM</h2>
+      <p class="text-lg mb-6">
+        SAM (Send A Message) is a real-time desktop companion that receives and displays messages from friends with timestamps and sender names.
+      </p>
+      <img src="/imgs/sam_diagram.png" alt="SAM Architecture Diagram" class="rounded shadow-lg w-full max-w-3xl mx-auto">
+    </section>
+
+    <section>
+      <h3 class="text-2xl font-semibold mb-4">Sections</h3>
+      <ul class="list-disc pl-6 space-y-2 text-blue-600">
+        <li><a href="setup.html" class="hover:underline">🔧 Getting Started & Setup</a></li>
+        <li><a href="what.html" class="hover:underline">🛠️ What is CYD & BOM</a></li>
+      </ul>
+    </section>
+  </main>
+</body>
 </html>
