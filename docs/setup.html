@@ -1,55 +1,77 @@
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SAM Docs | Setup</title>
+  <link rel="icon" href="/imgs/sam_favicon.ico" type="image/x-icon" />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-50 text-gray-800 font-sans">
-  <main class="max-w-4xl mx-auto px-6 py-10 space-y-8">
-    <h2 class="text-3xl font-bold">🔧 Getting Started</h2>
-    <ul class="list-disc pl-6 space-y-2">
-      <li>Power the ESP CYD using USB-C</li>
-      <li>Connect to WiFi via the setup webpage</li>
-      <li>Link the device to the SAM dashboard</li>
-      <li>Send test messages to confirm functionality</li>
-    </ul>
-
-    <h3 class="text-2xl font-bold pt-10">💡 Hardware Components</h3>
-    <ul class="list-disc pl-6 space-y-2">
-      <li>ESP CYD board</li>
-      <li>2.8” TFT Display (SPI)</li>
-      <li>Optional: Speaker for notifications</li>
-      <li>3D Printed yellow enclosure</li>
-    </ul>
-
-    <h3 class="text-2xl font-bold pt-10">📦 Software Architecture</h3>
-    <p>SAM includes a Flask web dashboard and ESP firmware with:</p>
-    <ul class="list-disc pl-6 space-y-2">
-      <li>WiFiManager for setup</li>
-      <li>Custom JSON message handling</li>
-      <li>TFT_eSPI for rendering</li>
-    </ul>
-
-    <h3 class="text-2xl font-bold pt-10">🧠 API Reference</h3>
-    <div class="bg-gray-100 p-4 rounded text-sm font-mono">
-      POST /api/sendMessage<br>
-      Content-Type: application/json<br>
-      {<br>
-      &nbsp;&nbsp;"sender": "John",<br>
-      &nbsp;&nbsp;"message": "Hello, Bob!",<br>
-      &nbsp;&nbsp;"timestamp": "2025-05-25T18:30:00Z"<br>
-      }
+  <header class="bg-blue-700 text-white shadow">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <h1 class="text-2xl font-bold flex items-center space-x-2">
+        <span>📟 SAM - Send A Message</span>
+        <span class="text-sm font-normal">v1.0</span>
+      </h1>
+      <nav class="space-x-6">
+        <a href="index.html"
+          class="text-white hover:text-blue-200 font-medium border-b-2 border-transparent hover:border-white transition">Home</a>
+        <a href="setup.html" class="text-white hover:text-blue-200 font-medium border-b-2 border-white">Setup</a>
+        <a href="what.html"
+          class="text-white hover:text-blue-200 font-medium border-b-2 border-transparent hover:border-white transition">What
+          is CYD</a>
+      </nav>
     </div>
+  </header>
 
-    <h3 class="text-2xl font-bold pt-10">📈 Roadmap</h3>
-    <ul class="list-disc pl-6 space-y-2">
-      <li>Mobile dashboard</li>
-      <li>Notification sounds + LEDs</li>
-      <li>OAuth friend system</li>
-      <li>Theme customization</li>
-      <li>OTA firmware updates</li>
-    </ul>
+  <main class="max-w-4xl mx-auto px-6 py-10 space-y-8">
+    <section>
+      <h2 class="text-3xl font-bold mb-4">🔧 Getting Started</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>Power the ESP CYD using a USB-C cable</li>
+        <li>Connect to Wi-Fi via the setup webpage</li>
+        <li>Link the device to the SAM dashboard</li>
+        <li>Send test messages to confirm functionality</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3 class="text-2xl font-bold pt-10 mb-4">💡 Hardware Components</h3>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>ESP CYD board</li>
+        <li>2.8” TFT Display (SPI)</li>
+        <li>Optional: Speaker for notifications</li>
+        <li>3D-printed yellow enclosure</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3 class="text-2xl font-bold pt-10 mb-4">📦 Software Architecture</h3>
+      <p>SAM includes a Flask web dashboard and ESP firmware with:</p>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>WiFiManager for setup</li>
+        <li>Custom JSON message handling</li>
+        <li>TFT_eSPI for rendering</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3 class="text-2xl font-bold pt-10 mb-4">🧠 API Reference</h3>
+      <div class="bg-gray-100 p-4 rounded text-sm font-mono">
+        POST /api/sendMessage<br />
+        Content-Type: application/json<br />
+        {<br />
+        &nbsp;&nbsp;"sender": "John",<br />
+        &nbsp;&nbsp;"message": "Hello, Bob!",<br />
+        &nbsp;&nbsp;"timestamp": "2025-05-25T18:30:00Z"<br />
+        }
+      </div>
+    </section>
+
   </main>
 </body>
+
 </html>

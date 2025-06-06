@@ -30,6 +30,7 @@ const char* WIFI_PASS = "PASS_HERE"; // Replace with your Wi-Fi password
 
 // —— Time API endpoint ——
 const char *TIME_URL = "http://worldtimeapi.org/api/timezone/America/Los_Angeles";
+// const char *TIME_URL = "https://worldtimeapi.org/api/timezone/America/Toronto"; // Replace with your preferred timezone
 
 // —— TFT object ——
 TFT_eSPI tft = TFT_eSPI();

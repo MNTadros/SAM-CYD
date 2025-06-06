@@ -1,35 +1,55 @@
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SAM Docs | Home</title>
-  <link rel="icon" type="image/png" href="/imgs/sam_favicon.ico" />
+  <link rel="icon" href="/imgs/sam_favicon.ico" type="image/x-icon" />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-50 text-gray-800 font-sans">
-  <header class="bg-blue-700 text-white py-4 shadow">
-    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold">📟 SAM - Send A Message</h1>
-      <span class="text-sm">v1.0</span>
+  <header class="bg-blue-700 text-white shadow">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <h1 class="text-2xl font-bold flex items-center space-x-2">
+        <span>📟 SAM - Send A Message</span>
+        <span class="text-sm font-normal">v1.0</span>
+      </h1>
+
+      <nav class="space-x-6">
+        <a href="index.html"
+          class="text-white hover:text-blue-200 font-medium border-b-2 border-transparent hover:border-white transition">Home</a>
+        <a href="setup.html"
+          class="text-white hover:text-blue-200 font-medium border-b-2 border-transparent hover:border-white transition">Setup</a>
+        <a href="what.html"
+          class="text-white hover:text-blue-200 font-medium border-b-2 border-transparent hover:border-white transition">What
+          is CYD</a>
+      </nav>
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto px-6 py-10 space-y-8">
+  <main class="max-w-4xl mx-auto px-6 py-10 space-y-10">
     <section>
       <h2 class="text-3xl font-bold mb-4">Welcome to SAM</h2>
       <p class="text-lg mb-6">
-        SAM (Send A Message) is a real-time desktop companion that receives and displays messages from friends with timestamps and sender names.
+        SAM (Send A Message) is a real-time desktop companion that receives and displays messages from friends
+        (with timestamps and sender names).
       </p>
-      <img src="/imgs/sam_diagram.png" alt="SAM Architecture Diagram" class="rounded shadow-lg w-full max-w-3xl mx-auto">
+      <img src="https://github.com/MNTadros/SAM-CYD/blob/main/imgs/sam_diagram.png" alt="SAM Architecture Diagram"
+        class="rounded shadow-lg w-full max-w-3xl mx-auto" />
     </section>
 
     <section>
       <h3 class="text-2xl font-semibold mb-4">Sections</h3>
       <ul class="list-disc pl-6 space-y-2 text-blue-600">
-        <li><a href="setup.html" class="hover:underline">🔧 Getting Started & Setup</a></li>
-        <li><a href="what.html" class="hover:underline">🛠️ What is CYD & BOM</a></li>
+        <li>
+          <a href="setup.html" class="hover:underline">🔧 Getting Started &amp; Setup</a>
+        </li>
+        <li><a href="what.html" class="hover:underline">🛠️ What is CYD &amp; BOM</a></li>
       </ul>
     </section>
   </main>
 </body>
+
 </html>
