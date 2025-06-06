@@ -82,7 +82,7 @@ password=SuperSecurePass
 api=http://192.168.1.100:5000/api/message/
 ```
 
-Place `config.txt` alongside the firmware source (under `src/firmware/`) before uploading.
+Place `config.txt` alongside the firmware source (under `src/main/`) before uploading.
 
 ---
 
