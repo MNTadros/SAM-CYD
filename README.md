@@ -19,3 +19,11 @@
 1. Flash the ESP32 with the provided firmware
 2. Set up Wi-Fi credentials
 3. Use the dashboard to send messages
+
+## Sample config.txt
+```txt
+device_id=samID
+ssid=YourNetworkSSID
+password=YourWiFiPassword
+api=http://XXX.XXX.XX.XXX:XXXX/api/message/;
+```
